@@ -1,9 +1,91 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title>hello world 13</title>
+	<title>BMI 計算機</title>
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,	initial-scale=1">
+
+	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js">
+	</script>
+
+	<style>
+		.BMI {
+			padding-left: 100px;
+			padding-top: 20px;
+			margin-left: auto;
+			margin-right: auto;
+			width: 350px;
+		}
+
+		.box {
+			padding-left: 100px;
+			padding-top: 20px;
+			margin-left: auto;
+			margin-right: auto;
+			box-sizing: content-box;
+		}
+	</style>
+
+	<script>
+		$(document).ready(function () {
+			$('#calc').click(function () {
+
+				var h = $('#height').val();
+				var w = $('#weight').val();
+
+				var BMI = w / (h * h);
+				$('#result').val(BMI);
+			});
+		});
+	</script>
 </head>
+
 <body>
-	<h1>welcomee</h1>
+
+	<h1 class="BMI">BMI 計算機</h1>
+	</div>
+
+	<form>
+
+
+		</div>
+
+
+
+
+
+		<div class="col-md-4 box">
+			<div class="form-group">
+				<label for="height">輸入身高(m)</label>
+				<input type="number" class="form-control" id="height" placeholder="身高">
+
+
+				<div class="form-group">
+					<label for="weight">輸入體重(kg)</label>
+					<input type="number" class="form-control" id="weight" placeholder="體重">
+
+
+					<div class="col-md-1 box"></div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary" id="calc">點我看結果</button>
+
+					</div>
+					<div class="form-group">
+						<label for="result">你的BMI是</label>
+						<input type="number" class="form-control" id="result" readonly="true">
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+
+	</form>
 </body>
+
 </html>
