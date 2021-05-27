@@ -14,6 +14,12 @@
 	</script>
 
 	<style>
+		body {
+			margin-left: auto;
+			margin-right: auto;
+			background-color: plum;
+		}
+
 		.BMI {
 			padding-left: 100px;
 			padding-top: 20px;
@@ -35,10 +41,17 @@
 		$(document).ready(function () {
 			$('#calc').click(function () {
 
-				var h = $('#height').val();
-				var w = $('#weight').val();
+				var h = $('#height').val(),
+					w = $('#weight').val(),
 
-				var BMI = w / (h * h);
+					BMI = w / (h * h);
+
+				if (h == "") {
+					alert("請輸入身高");
+				} else if (w == "") {
+					alert("請輸入體重");
+				}
+
 				$('#result').val(BMI);
 			});
 		});
