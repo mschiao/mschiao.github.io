@@ -41,18 +41,96 @@
 </style>
 
 <script>
-	$(document).ready(function () {
+	$(function () {
+
 		$('#calc').click(function () {
-
-			var h = $('#height').val(),
-				w = $('#weight').val(),
-				bmi = w / (h * h);
-			$("#result").val(bmi);
-
+			var h = $('#height').val(),  // 設定 h 為身高的變數
+				w = $('#weight').val(),  // 設定 W 為體重的變數
+				a = $('#age').val(),     // 設定 a 為年齡的變數
+				s = $('#sex').val();     // 設定 s 為性別的變數
 
 
+			if (h == '') {
+				alert('請輸入身高');
+			}
+			else if (w == '') {
+				alert('請輸入體重');
+			}
+			else if (a == '') {
+				alert('請輸入年齡');
+			}
+			else if (h > 3) {
+				alert('請確認身高的單位是否正確');
+			}
+			else if (w < 10) {
+				alert('請確認體重是否正確');
+			}
+			else {
+
+				// 計算並回傳 BMI 數值，取到小數點第 2 位
+				var bmi = w / (h * h);
+				$('#bmi-num').val(formatFloat(bmi, 2));
+				bmistd(bmi);
+
+				// 計算並回傳體脂率數值，取到小數點第 2 位
+				var bodyfat = (1.2 * bmi) + (0.23 * a - 5.4) - (10.8 * s);
+				$('#body-fat-num').val(formatFloat(bodyfat, 2));
+				bodyfatstd(s, bodyfat);
+
+			}
+
+
+			// 判斷 BMI 是否在標準範圍內
+			function bmistd(n) {
+				if (n < 18.5) {
+					$('#bmi-std').val('過輕');
+				}
+				else if (n > 24) {
+					$('#bmi-std').val('過重');
+				}
+				else {
+					$('#bmi-std').val('標準');
+				}
+			}
+
+			// 判斷 體脂率 是否在標準範圍內
+			function bodyfatstd(g, f) {
+				if (g == 1 && f <= 25) {
+					$('#body-fat-std').val('標準');
+				} else if (g == 1 && f > 25) {
+					$('#body-fat-std').val('肥胖');
+				} else if (g == 0 && f <= 30) {
+					$('#body-fat-std').val('標準');
+				} else if (g == 0 && f > 30) {
+					$('#body-fat-std').val('肥胖');
+				}
+			}
+
+
+			// 取小數點位數的函數
+			function formatFloat(num, pos) {
+				var size = Math.pow(10, pos);
+				return Math.round(num * size) / size;
+			}
 
 		});
+
+
+
+		// 按下清空按鈕時，清除所有 input 中的內容
+		$('#reset').click(function () {
+			$('#height').val('');
+			$('#weight').val('');
+			$('#age').val('');
+			$('#sex').val('');
+			$('#bmi-num').val('');
+			$('#body-fat-num').val('');
+			$('#bmi-std').val('');
+			$('#body-fat-std').val('');
+		})
+
+
+
 	});
 </script>
 </head>
@@ -68,32 +146,113 @@
 	</div>
 
 	<section>
-		<div class="row">
-			<div class="col-md-4 box">
-				<div class="form-group">
-					<label for="height">輸入身高(m)</label>
-					<input type="number" class="form-control" id="height" placeholder="身高">
-				</div>
-			</div>
-			<div class="col-md-4 box">
-				<div class="form-group">
-					<label for="weight">輸入體重(kg)</label>
-					<input type="number" class="form-control" id="weight" placeholder="體重">
-				</div>
-			</div>
-			<div class="col-md-1 button-box">
-				<div class="form-group">
-					<button type="button" id="calc" class="btn btn-success">計算</button>
-				</div>
-			</div>
-			<div class="col-md-3 box">
+		<div class="container">
+			<!-- first-row -->
+			<div class="row first-row">
 
-				<div class="form-group">
-					<label for="result">您的 BMI</label>
-					<input type="number" class="form-control" id="result" readonly="true">
+				<!-- 身高 -->
+				<div class="col-md-3 col-sm-6">
+					<form>
+						<div class="form-group">
+							<label for="height">身高 (m)</label>
+							<input type="number" class="form-control" id="height" placeholder="請輸入身高">
+						</div>
+					</form>
 				</div>
+
+				<!-- 體重 -->
+				<div class="col-md-3 col-sm-6">
+					<form>
+						<div class="form-group">
+							<label for="weight">體重 (kg)</label>
+							<input type="number" class="form-control" id="weight" placeholder="請輸入體重">
+						</div>
+					</form>
+				</div>
+
+				<!-- 年齡 -->
+				<div class="col-md-3 col-sm-6">
+					<form>
+						<div class="form-group">
+							<label for="age">年齡</label>
+							<input type="number" class="form-control" id="age" placeholder="請輸入年齡">
+						</div>
+					</form>
+				</div>
+
+				<!-- 性別 -->
+				<div class="col-md-3 col-sm-6">
+					<form>
+						<div class="form-group">
+							<label for="sex">性別</label>
+							<select class="form-control" id="sex">
+								<option id="male" value="1">男性 Male</option>
+								<option id="female" value="0">女性 Female</option>
+							</select>
+						</div>
+					</form>
+				</div>
+			</div> <!-- /.first-row -->
+			<br>
+
+			<!-- BMI 數值 -->
+			<div class="col-md-3 col-sm-6">
+				<form>
+					<div class="form-group">
+						<label for="bmi-num">BMI 數值：</label>
+						<input type="number" class="form-control" id="bmi-num" readonly="true">
+					</div>
+				</form>
 			</div>
+
+			<!-- 體脂率數值 -->
+			<div class="col-md-3 col-sm-6">
+				<form>
+					<div class="form-group">
+						<label for="body-fat-num">體脂率數值：</label>
+						<input type="number" class="form-control" id="body-fat-num" readonly="true">
+					</div>
+				</form>
+			</div>
+
+			<!-- BMI 標準 -->
+			<div class="col-md-3 col-sm-6">
+				<form>
+					<div class="form-group">
+						<label for="bmi-std">BMI 標準：</label>
+						<input type="text" class="form-control" id="bmi-std" readonly="true">
+					</div>
+				</form>
+			</div>
+
+			<!-- 體脂率標準 -->
+			<div class="col-md-3 col-sm-6">
+				<form>
+					<div class="form-group">
+						<label for="body-fat-std">體脂率標準：</label>
+						<input type="text" class="form-control" id="body-fat-std" readonly="true">
+					</div>
+				</form>
+			</div>
+
 		</div>
+
+
+
+		<!-- third-row -->
+		<div class="row">
+			<div class="col-md-12 button text-center">
+				<form>
+					<!-- 計算按鈕 -->
+					<button type="button" class="btn btn-success" id="calc">計算</button>
+
+					<!-- 清空按鈕 -->
+					<button type="reset" class="btn btn-outline-success" id="reset">清空</button>
+				</form>
+			</div>
+
+		</div>
+
 	</section>
 
 </body>
